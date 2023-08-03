@@ -1,0 +1,3 @@
+/home/yangyi/company/testc/build/CMakeFiles/rebuild_cache.dir
+/home/yangyi/company/testc/build/CMakeFiles/edit_cache.dir
+/home/yangyi/company/testc/build/CMakeFiles/my_executable.dir

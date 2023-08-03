@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <sys/stat.h>
+
+void read_superblock(const char* device_path) {
+    struct stat sb;
+
+    if (stat(device_path, &sb) == -1) {
+        perror("stat");
+        return;
+    }
+
+    printf("Device ID: %ld\n", sb.st_dev);
+    printf("Inode number: %ld\n", sb.st_ino);
+    // printf("File type: %o\n", sb.st & S_IFMT);
+    printf("Number of hard links: %ld\n", sb.st_nlink);
+    printf("UID: %d\n", sb.st_uid);
+    printf("GID: %d\n", sb.st_gid);
+    printf("File size: %ld bytes\n", sb.st_size);
+    printf("Last access time: %ld\n", sb.st_atime);
+    printf("Last modification time: %ld\n", sb.st_mtime);
+    printf("Last status change time: %ld\n", sb.st_ctime);
+}
+
+int main() {
+    const char* device_path = "/dev/sda1";
+    read_superblock(device_path);
+    return 0;
+}
