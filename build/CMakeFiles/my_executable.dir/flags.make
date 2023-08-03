@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = 
 
-C_FLAGS = -std=gnu11
+C_FLAGS = -fpack-struct -std=gnu11
 

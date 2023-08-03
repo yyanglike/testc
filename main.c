@@ -74,7 +74,7 @@ int main() {
     gpt_header = (struct GPTHeader*)gpt_header_buffer;
 
     // Print GPT header information
-    printf("GPT Disk Signature: ");
+    printf("GPT Disk Signature: %s", gpt_header->signature);
     print_hex(gpt_header->signature, sizeof(gpt_header->signature));
     printf("\n");
     printf("GPT Header Revision: %u\n", gpt_header->revision);
@@ -94,12 +94,12 @@ int main() {
     printf("Partition Entries CRC32: 0x%08X\n", gpt_header->partition_entries_crc32);
 
 
-    // // Check GPT signature to verify it's a GPT disk
-    // if (strncmp(gpt_header->signature, "EFI PART", 8) != 0) {
-    //     printf("Not a valid GPT disk.\n");
-    //     close(disk_fd);
-    //     return 1;
-    // }
+    // Check GPT signature to verify it's a GPT disk
+    if (strncmp(gpt_header->signature, "EFI PART", 8) != 0) {
+        printf("Not a valid GPT disk.\n");
+        close(disk_fd);
+        return 1;
+    }
 
     // Print GPT header information
     printf("GPT Disk Signature: %s\n", gpt_header->signature);
@@ -121,24 +121,24 @@ int main() {
 
 //    struct GPTEntry* gpt_entries = (struct GPTEntry*)gpt_entry_buffer;
 
-    // for (int i = 0; i < gpt_header->num_partition_entries; i++) {
-    //     printf("Partition %d\n", i + 1);
-    //     printf("Partition Type GUID: ");
-    //     print_guid(gpt_entries[i].type_guid);
-    //     printf("\n");
-    //     printf("Partition GUID: ");
-    //     print_guid(gpt_entries[i].partition_guid);
-    //     printf("\n");
-    //     printf("Starting LBA: %llu\n", gpt_entries[i].starting_lba);
-    //     printf("Ending LBA: %llu\n", gpt_entries[i].ending_lba);
-    //     printf("Partition Attributes: 0x%016llX\n", gpt_entries[i].attributes);
-    //     // Print the partition name (UTF-16 encoded)
-    //     printf("Partition Name: ");
-    //     for (int j = 0; j < 36; j++) {
-    //         printf("%c", (char)gpt_entries[i].name[j]);
-    //     }
-    //     printf("\n");
-    // }    
+    for (int i = 0; i < gpt_header->num_partition_entries; i++) {
+        printf("Partition %d\n", i + 1);
+        printf("Partition Type GUID: ");
+        print_guid(gpt_entries[i].type_guid);
+        printf("\n");
+        printf("Partition GUID: ");
+        print_guid(gpt_entries[i].partition_guid);
+        printf("\n");
+        printf("Starting LBA: %llu\n", gpt_entries[i].starting_lba);
+        printf("Ending LBA: %llu\n", gpt_entries[i].ending_lba);
+        printf("Partition Attributes: 0x%016llX\n", gpt_entries[i].attributes);
+        // Print the partition name (UTF-16 encoded)
+        printf("Partition Name: ");
+        for (int j = 0; j < 36; j++) {
+            printf("%c", (char)gpt_entries[i].name[j]);
+        }
+        printf("\n");
+    }    
 
     // Free allocated memory and close the disk device
     free(gpt_entries);
